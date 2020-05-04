@@ -9,12 +9,15 @@ program
 	.option('-d, --showData', 'Show Data')
 	.option('-dr, --dataRow <number>', 'Show Data Row (Accept multiple rows split with ",")')
 	.option('-c, --column <name>', 'Show Column (Accept multiple params split with ",")')
-	.action((filePath, { header , showData , numRows }) => {
+	.option('-v, --verbose', 'Show Additional Logging')
+	.action((filePath, { header , showData , numRows, verbose }) => {
 		let obj = { data: []};
+		log(verbose , `Opening DBF ${filePath}`);
 		let dbf = dbfstream(filePath , 'utf-8');
 		let opts = program.column ? program.column.split(',') : false;
 		let rows = program.dataRow ? program.dataRow.split(',') : false;
 		dbf.on('header', (data) => {
+			log(verbose , `DBF Header Loaded`)
 			obj.header = {...data}
 			if (numRows){ console.log(`Number Of Records: ${obj.header.numberOfRecords}`) };
 			if (header) { console.log(obj.header) };
@@ -51,5 +54,8 @@ function printRow(row , opts){
 		}
 		console.table(obj)
 	}
+}
+function log(verbose , message ){
+	verbose ? console.log(message) : null;
 }
 program.parse(process.argv);
