@@ -21,7 +21,10 @@ program
 			obj.header = {...data}
 			if (numRows){ console.log(`Number Of Records: ${obj.header.numberOfRecords}`) };
 			if (header) { console.log(obj.header) };
-			if (!showData && !opts && !rows) { process.exit(0) }
+			if (!showData && !opts && !rows) { log(verbose , `No other params exiting...`) ;process.exit(0) }
+		});
+		dbf.on('error', (err) => {
+  			log(verbose , err);
 		});
 		dbf.on('data', (data) => {
 			obj.data.push(data);
