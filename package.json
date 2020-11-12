@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npm index.js ./testData/VAT.DBF",
     "start": "npm index.js"
   },
   "keywords": [],
